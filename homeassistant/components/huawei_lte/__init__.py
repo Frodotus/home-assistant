@@ -172,6 +172,12 @@ def _setup_lte(hass, lte_config) -> None:
     data = RouterData(client, mac)
     hass.data[DOMAIN].data[url] = data
 
+    def reboot_service(call):
+        """Reboot lte router."""
+        client.device.reboot()
+
+    hass.services.register(DOMAIN, "reboot", reboot_service)
+
     def cleanup(event):
         """Clean up resources."""
         try:
